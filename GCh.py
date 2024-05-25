@@ -50,7 +50,7 @@ def train_model(images, labels):
     train_gen = datagen.flow(images, labels, batch_size=32, subset='training')
     val_gen = datagen.flow(images, labels, batch_size=32, subset='validation')
 
-    history = model.fit(train_gen, validation_data=val_gen, epochs=100)
+    history = model.fit(train_gen, validation_data=val_gen, epochs=140)
     return model, history
 
 
@@ -70,7 +70,7 @@ def load_training_data(directory):
     if not os.path.isdir(directory):
         raise ValueError(f"Директория не существует: {directory}")
 
-    # Проход по двум классам: bicycle и not_bicycle
+
     for label, subdir in enumerate(['bicycle', 'not_bicycle']):
         subdir_path = os.path.join(directory, subdir)
         if not os.path.isdir(subdir_path):
@@ -81,9 +81,9 @@ def load_training_data(directory):
                 path = os.path.join(subdir_path, filename)
                 img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
                 if img is not None:
-                    img = cv2.resize(img, (96, 96))  # Resize image to 96x96
-                    images.append(cv2.cvtColor(img, cv2.COLOR_GRAY2RGB))  # Convert to 3 channels
-                    labels.append(label)  # 0 для bicycle, 1 для not_bicycle
+                    img = cv2.resize(img, (96, 96))
+                    images.append(cv2.cvtColor(img, cv2.COLOR_GRAY2RGB))
+                    labels.append(label)
                 else:
                     print(f"Ошибка загрузки изображения: {path}")
             else:
@@ -97,7 +97,7 @@ def load_training_data(directory):
     return images, labels
 
 
-# Функция для отображения изображений, предсказанных как "велосипед"
+
 def display_bicycle_images(model, directory):
     files = os.listdir(directory)
     for filename in files:
